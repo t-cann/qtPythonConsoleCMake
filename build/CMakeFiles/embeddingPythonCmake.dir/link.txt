@@ -1,0 +1,1 @@
+/bin/g++-9  -g   CMakeFiles/embeddingPythonCmake.dir/embeddingPythonCmake_autogen/mocs_compilation.cpp.o CMakeFiles/embeddingPythonCmake.dir/main.cpp.o  -o embeddingPythonCmake  /usr/lib/x86_64-linux-gnu/libpython3.8.so /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.12.8 
