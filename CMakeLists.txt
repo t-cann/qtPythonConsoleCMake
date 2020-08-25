@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 project(embeddingPythonCmake LANGUAGES CXX)
+#https://github.com/t-cann/qtPythonConsoleCMake
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -26,5 +27,5 @@ add_executable(embeddingPythonCmake
 target_link_libraries(embeddingPythonCmake
   # Why target_link_libraries ?
   Python::Python
-  Qt5::Core
+  Qt5::Widgets
 )

@@ -1,23 +1,36 @@
-#define PY_SSIZE_T_CLEAN
-#include <stdio.h>
-// #include <conio.h>
-#include <Python.h>
+#include <python3.8/Python.h>   // Code will not compile if include Python.h is after QtCore  -- Order should not matter.
+#include <QtWidgets>            //
 
-int
-main(int argc, char *argv[])
+#include "pyConsole.h"
+
+
+void test(QApplication *a){
+    //Basic Example
+    qInfo() << "Hello World !!";
+
+    //qInfo() << argv[0]; // ./embeddingPythonCmake
+    qInfo() << a->allWidgets();
+    qInfo() << a->allWindows();
+
+    //Python Console Code
+    pyConsole date; 
+    
+    date.test(); 
+
+}
+
+
+
+int main(int argc, char *argv[])
 {
-    wchar_t *program = Py_DecodeLocale(argv[0], NULL);
-    if (program == NULL) {
-        fprintf(stderr, "Fatal error: cannot decode argv[0]\n");
-        exit(1);
-    }
-    Py_SetProgramName(program);  /* optional but recommended */
-    Py_Initialize();
-    PyRun_SimpleString("from time import time,ctime\n"
-                       "print('Today is', ctime(time()))\n");
-    if (Py_FinalizeEx() < 0) {
-        exit(120);
-    }
-    PyMem_RawFree(program);
-    return 0;
+    QApplication a(argc,argv);
+    QMainWindow window;
+    QMainWindow window2;
+    //testWidget.setText("Blah Blah");
+    window.show();
+    window2.show();
+
+    test(&a); 
+
+    return a.exec(); 
 }
