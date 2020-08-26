@@ -28,4 +28,5 @@ target_link_libraries(embeddingPythonCmake
   # Why target_link_libraries ?
   Python::Python
   Qt5::Widgets
+  Qt5::Core
 )
