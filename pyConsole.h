@@ -79,7 +79,7 @@ sys.stderr = catchOutErr\n\
 
     output = PyObject_GetAttrString(catcher,"value"); //get the stdout and stderr from our catchOutErr object
 
-    qDebug().noquote() <<"Catcher Output:\n\n" + pyConsole::ObjectToString(output).toUtf8(); // In Unicode format \n new line charaters how to remove?
+    //qDebug().noquote() <<"Catcher Output:\n\n" + pyConsole::ObjectToString(output).toUtf8(); // In Unicode format \n new line charaters how to remove?
 
     qDebug().noquote() <<  pyConsole::pyRun("print('hello')");
 
