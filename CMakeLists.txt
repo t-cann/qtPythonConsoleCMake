@@ -18,7 +18,7 @@ find_package (Python COMPONENTS Interpreter Development)
 find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
 #find_package(Qt5Core)
 
-set(SOURCES main.cpp)
+set(SOURCES main.cpp mainwindow.h mainwindow.cpp consolewidget.h consolewidget.cpp pyConsole.h)
 
 add_executable(embeddingPythonCmake
   ${SOURCES}
@@ -27,6 +27,7 @@ add_executable(embeddingPythonCmake
 target_link_libraries(embeddingPythonCmake
   # Why target_link_libraries ?
   Python::Python
-  Qt5::Widgets
   Qt5::Core
+  Qt5::Widgets
 )
+
