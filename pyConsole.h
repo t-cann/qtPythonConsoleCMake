@@ -27,13 +27,15 @@ public:
     pyConsole();
     ~pyConsole();
     void test();
-    void runString(const char *);
+    void runCString(const char *);
     QString pyRun(QString );
     QString ObjectToString(PyObject*);
 };
 
-//Constructor
-//pyConsole::pyConsole(char *argv[])
+/**
+ * @brief Construct a new py Console::py Console object
+ * 
+ */
 pyConsole::pyConsole()
 {
     // Examples 
@@ -87,7 +89,10 @@ sys.stderr = catchOutErr\n\
 
 }
 
-//Deconstructor
+/**
+ * @brief Destroy the py Console::py Console object
+ * 
+ */
 pyConsole::~pyConsole()
 {
     PyRun_SimpleString("sys.stdout = oldstdout");
@@ -102,7 +107,10 @@ pyConsole::~pyConsole()
     PyMem_RawFree(program);
 }
 
-//Function to Test Functionality and run Debug
+/**
+ * @brief Tests Functionality of Python.h before unit test can be implemented.
+ * 
+ */
 void pyConsole::test(){
     
     PyRun_SimpleString(
@@ -110,11 +118,16 @@ void pyConsole::test(){
         "print('Today is', ctime(time()))\n"
     );
 
-    PyRun_SimpleString("1+3"); //no output 
+    PyRun_SimpleString("1+3"); //no output, needs to be wrapped with print(/*Code*/)
 
 }
 
-void pyConsole::runString(const char *command){
+/**
+ * @brief  Function to run a C++ String Command in the Python Interpreter
+ * 
+ * @param command pointer to immutable character/string that will run.
+ */
+void pyConsole::runCString(const char *command){
     PyRun_SimpleString(command);
 }
 
@@ -134,8 +147,12 @@ QString pyConsole::pyRun(QString command){
 }
 
 
-//https://ubuverse.com/embedding-the-python-interpreter-in-a-qt-application/
-
+/**
+ * @brief Converts PyObject to QString. Function from https://ubuverse.com/embedding-the-python-interpreter-in-a-qt-application/
+ * 
+ * @param poVal PyObject Unicode 
+ * @return QString 
+ */
 QString pyConsole::ObjectToString(PyObject *poVal)
 {
     QString val;
@@ -160,6 +177,12 @@ QString pyConsole::ObjectToString(PyObject *poVal)
     return val;
 }
 
+/**
+ * @brief Checks for error in Python C++ API. From https://ubuverse.com/embedding-the-python-interpreter-in-a-qt-application/
+ * 
+ * @return true 
+ * @return false 
+ */
 bool pyConsole::hasError()
 {
     bool error = false;

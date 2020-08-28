@@ -4,48 +4,51 @@
 #include <QDebug>
 
 #include "mainwindow.h"
-//#include "consolewidget.h"
-
 #include "pyConsole.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+/**
+ * @brief Construct a new Main Window:: Main Window object
+ * 
+ * @param parent 
+ */
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    
+    ////Adding a Central Widget for effect ( as Demonstration ). Probably Better ways of doing this. 
     //QTextEdit* textEdit = new QTextEdit(this);
     //setCentralWidget(textEdit);
+
     createDockWindows();
     setWindowTitle("Test");
     resize(300,200);
 }
 
+/**
+ * @brief Destroy the Main Window:: Main Window object
+ * 
+ */
 MainWindow::~MainWindow()
 {
 
 }
 
+/**
+ * @brief Creates all docking widget for the MainWindow.
+ * 
+ */
 void MainWindow::createDockWindows(){
 
-    // QDockWidget *dock = new QDockWidget(tr("Customers"), this);
-    // dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    // console = new QListWidget(dock);
-    // console->addItems(QStringList()
-    //         << "John Doe, Harmony Enterprises, 12 Lakeside, Ambleton"
-    //         << "Jane Doe, Memorabilia, 23 Watersedge, Beaton"
-    //         << "Tammy Shea, Tiblanka, 38 Sea Views, Carlton"
-    //         << "Tim Sheen, Caraba Gifts, 48 Ocean Way, Deal"
-    //         << "Sol Harvey, Chicos Coffee, 53 New Springs, Eccleston"
-    //         << "Sally Hobart, Tiroli Tea, 67 Long River, Fedula");
-    // dock->setWidget(console);
-    // addDockWidget(Qt::RightDockWidgetArea, dock);
-    // //viewMenu->addAction(dock->toggleViewAction());
-
-    dock= new QDockWidget(tr("Python Console Test"), this);
+    QDockWidget* dock= new QDockWidget(tr("Python Console Test"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    box = new QGroupBox(dock);
-    button = new QPushButton(tr("Run"));
+    QGroupBox* box = new QGroupBox(dock);
+    QPushButton* button = new QPushButton(tr("Run"));
+
     lineEdit = new QLineEdit();
-    textEdit = new QTextEdit();
+    textEdit = new QPlainTextEdit();
+
+    //textEdit->setReadOnly(true);
+    //textEdit->setMaximumBlockCount(); // More like a log than textbox
+    //textEdit->appendPlainText();      // Better that resetting everytime
+    //textEdit - potential feature could be Syntax Highlighting //https://doc.qt.io/qt-5/qsyntaxhighlighter.html
 
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(lineEdit);
@@ -62,26 +65,37 @@ void MainWindow::createDockWindows(){
 
 }
 
+/**
+ * @brief Logic when button pressed. 
+ * 
+ *  Step 1 Append Command to textEdit e.g. >>> 3+4 
+ *  Step 2 Pass Command to Python Interpreter get QString back.
+ *  Step 3 Append Returned Value to textEdit
+ *  Step 4 Clear lineEdit (potential feature around suggested commands or up arrow for past commands) 
+ */
 void MainWindow::updateConsole(){
-    //Debug1
-    //qInfo() << "Test";
-    //Debug2
-    //lineEdit->setText("Test");
-    //Debug3
-    /* 
     QString linetext = lineEdit->text();
     QString text = textEdit->toPlainText();
-    textEdit->setText(text +linetext); 
-    */
-    pyConsole console = pyConsole(); 
-    //QString linetext = lineEdit->text();
-    //textEdit->setText(console.runString(linetext));
-    //console->~pyConsole();
 
-
+    if(debug)
+    {
+        //Debug1
+        qInfo() << "Test";
+        //Debug2
+        lineEdit->setText("Test");
+        //Debug3    
+        textEdit->setPlainText(text +linetext);
+    }else
+    {
+        //Debug4 
+        pyConsole* console = new pyConsole(); 
+        QString linetext = lineEdit->text();
+        textEdit->appendPlainText(console->pyRun(linetext));
+        //console->~pyConsole();
+    }
 }
 
-//void someFunction();
-//QObject::connect(button, &QPushButton::clicked, this, someFunction, Qt::QueuedConnection);
-//ConsoleWidget *console = new ConsoleWidget(this);
-//console->show();
+void MainWindow::createConsoleWidget(){
+        //ConsoleWidget *console = new ConsoleWidget(this);
+        //console->show();
+}

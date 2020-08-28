@@ -18,6 +18,8 @@ find_package (Python COMPONENTS Interpreter Development)
 find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
 #find_package(Qt5Core)
 
+ADD_DEFINITIONS(-DQT_NO_KEYWORDS)
+
 set(SOURCES main.cpp mainwindow.h mainwindow.cpp consolewidget.h consolewidget.cpp pyConsole.h)
 
 add_executable(embeddingPythonCmake
