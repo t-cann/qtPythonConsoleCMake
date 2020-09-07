@@ -20,6 +20,8 @@ find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
 
 set(SOURCES main.cpp mainwindow.h mainwindow.cpp consolewidget.h consolewidget.cpp pyConsole.h)
 
+ADD_DEFINITIONS(-DQT_NO_KEYWORDS)
+
 add_executable(embeddingPythonCmake
   ${SOURCES}
 )
