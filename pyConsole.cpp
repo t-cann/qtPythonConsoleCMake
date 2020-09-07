@@ -82,6 +82,17 @@ void pyConsole::test(){
 
 }
 
+//Sending data from C++ to Python
+//Copy vs Move
+//Deep vs Shallow Copy
+//Type of C Array vs Python Variable 
+//As numpy is C Accelerated  might help
+// Tiobrowse data
+//Simple types of data - Strings , Ints and Doubles
+//https://codereview.stackexchange.com/questions/92266/sending-a-c-array-to-python-numpy-and-back/92353#92353
+
+ 
+
 void pyConsole::runString(const char *command){
     PyRun_SimpleString(command);
 }
