@@ -1,54 +1,56 @@
-#include <python3.8/Python.h> 
+#include <Python.h> //#include <python3.8/Python.h> 
 
 #include <QtWidgets>
 #include <QDebug>
 
 #include "mainwindow.h"
-#include "pyConsole.h"
+//#include "consolewidget.h"
 
-/**
- * @brief Construct a new Main Window:: Main Window object
- * 
- * @param parent 
- */
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
 {
-    ////Adding a Central Widget for effect ( as Demonstration ). Probably Better ways of doing this. 
-    //QTextEdit* textEdit = new QTextEdit(this);
-    //setCentralWidget(textEdit);
+    console = new pyConsole(); 
+    QTextEdit* textEdit = new QTextEdit(this);
+    this->setCentralWidget(textEdit);
+    this->createDockWindows();
+    this->setWindowTitle("Test");
+    this->resize(500,600);
 
-    createDockWindows();
-    setWindowTitle("Test");
-    resize(300,200);
+    
 }
 
-/**
- * @brief Destroy the Main Window:: Main Window object
- * 
- */
 MainWindow::~MainWindow()
 {
-
+    console->~pyConsole();
 }
 
-/**
- * @brief Creates all docking widget for the MainWindow.
- * 
- */
 void MainWindow::createDockWindows(){
 
-    QDockWidget* dock= new QDockWidget(tr("Python Console Test"), this);
-    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    QGroupBox* box = new QGroupBox(dock);
-    QPushButton* button = new QPushButton(tr("Run"));
+    // QDockWidget *dock = new QDockWidget(tr("Customers"), this);
+    // dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    // console = new QListWidget(dock);
+    // console->addItems(QStringList()
+    //         << "John Doe, Harmony Enterprises, 12 Lakeside, Ambleton"
+    //         << "Jane Doe, Memorabilia, 23 Watersedge, Beaton"
+    //         << "Tammy Shea, Tiblanka, 38 Sea Views, Carlton"
+    //         << "Tim Sheen, Caraba Gifts, 48 Ocean Way, Deal"
+    //         << "Sol Harvey, Chicos Coffee, 53 New Springs, Eccleston"
+    //         << "Sally Hobart, Tiroli Tea, 67 Long River, Fedula");
+    // dock->setWidget(console);
+    // addDockWidget(Qt::RightDockWidgetArea, dock);
+    // //viewMenu->addAction(dock->toggleViewAction());
 
+    dock= new QDockWidget(tr("Python Console Test"), this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+    box = new QGroupBox(dock);
+    button = new QPushButton(tr("Run"));
     lineEdit = new QLineEdit();
+    lineEdit->setAcceptDrops(true);
+    lineEdit->setPlaceholderText("Enter Python Commands in here.");
     textEdit = new QPlainTextEdit();
-
-    //textEdit->setReadOnly(true);
-    //textEdit->setMaximumBlockCount(); // More like a log than textbox
-    //textEdit->appendPlainText();      // Better that resetting everytime
-    //textEdit - potential feature could be Syntax Highlighting //https://doc.qt.io/qt-5/qsyntaxhighlighter.html
+    textEdit->setPlaceholderText("Outputs Display Here.");
+    textEdit->setReadOnly(true);
+    textEdit->setMaximumBlockCount(100);
 
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(lineEdit);
@@ -59,43 +61,40 @@ void MainWindow::createDockWindows(){
     box->setLayout(vbox);
 
     dock->setWidget(box);
-    addDockWidget(Qt::RightDockWidgetArea, dock);
+    addDockWidget(Qt::BottomDockWidgetArea, dock);
 
     QObject::connect(button, &QPushButton::clicked, this, &MainWindow::updateConsole , Qt::QueuedConnection);
 
 }
 
-/**
- * @brief Logic when button pressed. 
- * 
- *  Step 1 Append Command to textEdit e.g. >>> 3+4 
- *  Step 2 Pass Command to Python Interpreter get QString back.
- *  Step 3 Append Returned Value to textEdit
- *  Step 4 Clear lineEdit (potential feature around suggested commands or up arrow for past commands) 
- */
 void MainWindow::updateConsole(){
+    //Debug1
+    //qInfo() << "Start of Update Console";
+    //Debug2
+    //lineEdit->setText("Test");
+    //Debug3
+    /* 
     QString linetext = lineEdit->text();
     QString text = textEdit->toPlainText();
-
-    if(debug)
+    textEdit->setText(text +linetext); 
+     */
+    //QString* linetext = lineEdit->text();
+    textEdit->appendPlainText(">>>" + lineEdit->text());
+    QString output = console->pyRun(lineEdit->text());
+    if (output!="")
     {
-        //Debug1
-        qInfo() << "Test";
-        //Debug2
-        lineEdit->setText("Test");
-        //Debug3    
-        textEdit->setPlainText(text +linetext);
-    }else
-    {
-        //Debug4 
-        pyConsole* console = new pyConsole(); 
-        QString linetext = lineEdit->text();
-        textEdit->appendPlainText(console->pyRun(linetext));
-        //console->~pyConsole();
+        textEdit->appendPlainText(output);
     }
+    
+    
+    lineEdit->setText("");
+    //qInfo() << "End of Update Console";
+
 }
 
-void MainWindow::createConsoleWidget(){
-        //ConsoleWidget *console = new ConsoleWidget(this);
-        //console->show();
-}
+
+
+//void someFunction();
+//QObject::connect(button, &QPushButton::clicked, this, someFunction, Qt::QueuedConnection);
+//ConsoleWidget *console = new ConsoleWidget(this);
+//console->show();
