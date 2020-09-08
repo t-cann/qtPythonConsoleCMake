@@ -2,8 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QtWidgets>
-#include "pyConsole.h" 
-
+#include "consolewidget.h"
 
 //References:
 //https://stackoverflow.com/questions/23068700/embedding-python3-in-qt-5
@@ -21,16 +20,13 @@ public:
 
 
 private Q_SLOTS:
-    void updateConsole();
 
 private:
     void createDockWindows();
-    QDockWidget* dock;
+
     QGroupBox* box;
-    QPushButton* button;
-    QLineEdit* lineEdit;
-    QPlainTextEdit* textEdit;
-    pyConsole* console;
+    QDockWidget* dock;
+    ConsoleWidget* consoleWidget;
 };
 
 #endif //MAINWINDOW_H
