@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 project(embeddingPythonCmake LANGUAGES CXX)
-#https://github.com/t-cann/qtPythonConsoleCMake
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -18,16 +17,19 @@ find_package (Python COMPONENTS Interpreter Development)
 find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
 #find_package(Qt5Core)
 
-set(SOURCES main.cpp mainwindow.h mainwindow.cpp consolewidget.h consolewidget.cpp pyConsole.h)
+set(SOURCES main.cpp)
 
 add_executable(embeddingPythonCmake
   ${SOURCES}
 )
 
+#Research function/macro and workout how to import SerialPort?
+#qt5_use_modules(embeddingPythonCmake Core SerialPort)
+
+#Do I need to add Python Modules in Here? 
 target_link_libraries(embeddingPythonCmake
   # Why target_link_libraries ?
   Python::Python
   Qt5::Core
   Qt5::Widgets
 )
-
