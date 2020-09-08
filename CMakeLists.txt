@@ -15,8 +15,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package (Python COMPONENTS Interpreter Development)
 # https://cmake.org/cmake/help/latest/manual/cmake-qt.7.html
 find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
-#find_package(Qt5Core)
 
+#Prevents Keywords being overwritten between Qt and Python C++ API.
 ADD_DEFINITIONS(-DQT_NO_KEYWORDS)
 
 set(SOURCES main.cpp mainwindow.h mainwindow.cpp consolewidget.h consolewidget.cpp pyConsole.h pyConsole.cpp)
@@ -25,12 +25,7 @@ add_executable(embeddingPythonCmake
   ${SOURCES}
 )
 
-#Research function/macro and workout how to import SerialPort?
-#qt5_use_modules(embeddingPythonCmake Core SerialPort)
-
-#Do I need to add Python Modules in Here? 
 target_link_libraries(embeddingPythonCmake
-  # Why target_link_libraries ?
   Python::Python
   Qt5::Core
   Qt5::Widgets

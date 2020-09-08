@@ -1,11 +1,15 @@
 #include "pyConsole.h"
 
-//Constructor
-//pyConsole::pyConsole(char *argv[])
+
+// References:
+//https://ubuverse.com/embedding-the-python-interpreter-in-a-qt-application/
+//http://mateusz.loskot.net/post/2011/12/01/python-sys-stdout-redirection-in-cpp/
+//https://codereview.stackexchange.com/questions/92266/sending-a-c-array-to-python-numpy-and-back/92353#92353
+//https://ubuverse.com/embedding-the-python-interpreter-in-a-qt-application/
+
 pyConsole::pyConsole()
 {
-    // Examples 
-    //http://mateusz.loskot.net/post/2011/12/01/python-sys-stdout-redirection-in-cpp/
+    
     
 
     //program = Py_DecodeLocale((char*)argv[0], NULL); //
@@ -62,7 +66,7 @@ pyConsole::~pyConsole()
 
     //PyRun_SimpleString("print('<<< End of Python Output / Deconstructor PyConsole')");
 
-        //Py_FinalizeEx(); //Notice that Py_FinalizeEx() does not free all memory allocated by the Python interpreter, e.g. memory allocated by extension modules currently cannot be released.
+    //Py_FinalizeEx(); //Notice that Py_FinalizeEx() does not free all memory allocated by the Python interpreter, e.g. memory allocated by extension modules currently cannot be released.
     if (Py_FinalizeEx() < 0) {
         exit(120);
     }
@@ -89,9 +93,6 @@ void pyConsole::test(){
 //As numpy is C Accelerated  might help
 // Tiobrowse data
 //Simple types of data - Strings , Ints and Doubles
-//https://codereview.stackexchange.com/questions/92266/sending-a-c-array-to-python-numpy-and-back/92353#92353
-
- 
 
 void pyConsole::runString(const char *command){
     PyRun_SimpleString(command);
@@ -112,8 +113,6 @@ QString pyConsole::pyRun(QString command){
     return outstring;
 }
 
-
-//https://ubuverse.com/embedding-the-python-interpreter-in-a-qt-application/
 
 QString pyConsole::ObjectToString(PyObject *poVal)
 {

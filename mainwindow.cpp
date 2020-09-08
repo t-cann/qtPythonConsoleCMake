@@ -86,15 +86,8 @@ void MainWindow::updateConsole(){
         textEdit->appendPlainText(output);
     }
     
-    
     lineEdit->setText("");
     //qInfo() << "End of Update Console";
 
 }
 
-
-
-//void someFunction();
-//QObject::connect(button, &QPushButton::clicked, this, someFunction, Qt::QueuedConnection);
-//ConsoleWidget *console = new ConsoleWidget(this);
-//console->show();

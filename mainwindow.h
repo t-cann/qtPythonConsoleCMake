@@ -5,35 +5,13 @@
 #include "pyConsole.h" 
 
 
-
-class mainwindow
-{
-private:
-    
-public:
-    mainwindow(int argc, char *argv[]);
-    ~mainwindow();
-};
-
-mainwindow::mainwindow(int argc, char *argv[])
-{
-    QApplication app(argc, argv);
-    QWidget w;
+//References:
+//https://stackoverflow.com/questions/23068700/embedding-python3-in-qt-5
+//https://stackoverflow.com/questions/15078060/embedding-python-in-qt-5
+//https://stackoverflow.com/questions/46571438/turning-the-no-keyword-qt-option-on-in-a-cmake-file-to-work-with-boostsignal/46573144
 
 
-    w.show();
-    app.exec(); 
-}
-
-mainwindow::~mainwindow()
-{
-}
-
-
-
-//https://stackoverflow.com/questions/34245235/qt-how-to-redirect-qprocess-stdout-to-textedit
-
-/* class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
@@ -48,7 +26,6 @@ private Q_SLOTS:
 private:
     void createDockWindows();
     QDockWidget* dock;
-    //QListWidget* console;
     QGroupBox* box;
     QPushButton* button;
     QLineEdit* lineEdit;
@@ -56,18 +33,4 @@ private:
     pyConsole* console;
 };
 
-public slots:
-    void runCommand();
-    void readCommand();
-    void stopCommand(int exitCode, QProcess::ExitStatus exitStatus);
-
-//private or public?
-private slots:
-    void error(QProcess::ProcessError error);
-    void stateChanged(QProcess::ProcessState state);
-
-private:
-    QProcess *cmd;
-}; */
-
-#endif
+#endif //MAINWINDOW_H
