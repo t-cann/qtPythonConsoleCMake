@@ -3,16 +3,16 @@
 #include <QDebug>
 #include "mainwindow.h"
 //#include <python3.8/Python.h> can use this notation to chose specific versions of python if got wide imports.
-//#include "consolewidget.h"
 
 /**
  * @brief Construct a new Main Window:: Main Window object
  * 
  * @param parent 
  */
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) //, consoleWidget(new ConsoleWidget())
 {
+    consoleWidget = new ConsoleWidget(this);
+    //consoleWidget->show();
     console = new pyConsole(); 
     QTextEdit* textEdit = new QTextEdit(this);
     this->setCentralWidget(textEdit);
@@ -62,8 +62,11 @@ void MainWindow::createDockWindows(){
     box->setLayout(vbox);
 
     dock->setWidget(box);
-    addDockWidget(Qt::BottomDockWidgetArea, dock);
+    this->addDockWidget(Qt::BottomDockWidgetArea, dock);
 
+     dock= new QDockWidget(tr("Test"), this);    
+    dock->setWidget(consoleWidget);
+    this->addDockWidget(Qt::LeftDockWidgetArea, dock);
     //Connect Button Push to the Update Console function. 
     QObject::connect(button, &QPushButton::clicked, this, &MainWindow::updateConsole , Qt::QueuedConnection);
 }

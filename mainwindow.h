@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 #include "pyConsole.h" 
-
+#include "consolewidget.h"
 
 //References:
 //https://stackoverflow.com/questions/23068700/embedding-python3-in-qt-5
@@ -31,6 +31,7 @@ private:
     QLineEdit* lineEdit;
     QPlainTextEdit* textEdit;
     pyConsole* console;
+    ConsoleWidget* consoleWidget;
 };
 
 #endif //MAINWINDOW_H

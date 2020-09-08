@@ -3,12 +3,13 @@
 
 #include <QWidget>
 
+
 class ConsoleWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit ConsoleWidget(QWidget *parent = nullptr);
-
+    ~ConsoleWidget();
 Q_SIGNALS:
 
 };

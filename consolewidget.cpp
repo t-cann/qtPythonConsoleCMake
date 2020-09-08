@@ -1,6 +1,11 @@
 #include "consolewidget.h"
 #include <QtWidgets>
 
+/**
+ * @brief Construct a new Console Widget:: Console Widget object
+ * 
+ * @param parent 
+ */
 ConsoleWidget::ConsoleWidget(QWidget *parent) : QWidget(parent)
 {
 
@@ -15,4 +20,13 @@ ConsoleWidget::ConsoleWidget(QWidget *parent) : QWidget(parent)
 
     this->setLayout(layout);
     this->show();
+}
+
+/**
+ * @brief Destroy the Console Widget:: Console Widget object
+ * 
+ */
+ConsoleWidget::~ConsoleWidget()
+{
+
 }
