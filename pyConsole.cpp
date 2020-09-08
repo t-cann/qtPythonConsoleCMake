@@ -1,6 +1,5 @@
 #include "pyConsole.h"
 
-
 // References:
 //https://ubuverse.com/embedding-the-python-interpreter-in-a-qt-application/
 //http://mateusz.loskot.net/post/2011/12/01/python-sys-stdout-redirection-in-cpp/
@@ -22,7 +21,7 @@
  */
 pyConsole::pyConsole()
 {
-    //program = Py_DecodeLocale((char*)argv[0], NULL); //
+    //program = Py_DecodeLocale((char*)argv[0], NULL); //TODO
     program = Py_DecodeLocale("embeddingPythonConsole", NULL);
     if (program == NULL) {
         fprintf(stderr, "Fatal error: cannot decode argv[0]\n");
@@ -50,23 +49,15 @@ sys.stderr = catchOutErr\n\
 
     pModule = PyImport_AddModule("__main__"); //create main module
     PyRun_SimpleString(stdOutErr.c_str()); //invoke code to redirect
-    
+    catcher = PyObject_GetAttrString(pModule,"catchOutErr"); //get our catchOutErr created above  
+    PyErr_Print(); //make python print any errors
+    output = PyObject_GetAttrString(catcher,"value"); //get the stdout and stderr from our catchOutErr object
+
     //test();
     //PyRun_SimpleString("print(1+1)"); //this is ok stdout
     //PyRun_SimpleString("1+a"); //this creates an error
-    
-
-    catcher = PyObject_GetAttrString(pModule,"catchOutErr"); //get our catchOutErr created above
-    PyErr_Print(); //make python print any errors
-
-    output = PyObject_GetAttrString(catcher,"value"); //get the stdout and stderr from our catchOutErr object
-
     //qDebug().noquote() <<"Catcher Output:\n\n" + pyConsole::ObjectToString(output).toUtf8(); // In Unicode format \n new line charaters how to remove?
-
     //qDebug().noquote() <<  pyConsole::pyRun("print('hello')");
-
-    
-
 }
 
 /**
@@ -78,8 +69,8 @@ pyConsole::~pyConsole()
     PyRun_SimpleString("sys.stdout = oldstdout");
 
     //PyRun_SimpleString("print('<<< End of Python Output / Deconstructor PyConsole')");
-
     //Py_FinalizeEx(); //Notice that Py_FinalizeEx() does not free all memory allocated by the Python interpreter, e.g. memory allocated by extension modules currently cannot be released.
+    
     if (Py_FinalizeEx() < 0) {
         exit(120);
     }

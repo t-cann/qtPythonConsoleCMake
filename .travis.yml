@@ -1,0 +1,29 @@
+# .travis.yml
+
+os: linux
+dist: bionic
+
+language: cpp
+
+addons:
+  apt:
+    packages:
+      - qtbase5-dev
+      - googletest
+
+before_script:
+  - >
+    cmake
+    -DBUILD_GTEST:BOOL=ON
+    -DCMAKE_INSTALL_PREFIX:PATH=${TRAVIS_BUILD_DIR}/gtest
+    /usr/src/googletest
+  - cmake --build .
+  - cmake --build . --target install
+  - popd
+
+script:
+  - mkdir build
+  - cd build
+  - export CMAKE_PREFIX_PATH=${TRAVIS_BUILD_DIR}/gtest:${CMAKE_PREFIX_PATH}
+  - cmake--build .
+  - ctest
