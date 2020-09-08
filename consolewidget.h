@@ -11,6 +11,7 @@ class ConsoleWidget : public QWidget
 public:
     explicit ConsoleWidget(QWidget *parent = nullptr);
     ~ConsoleWidget();
+
 Q_SIGNALS:
 
 private Q_SLOTS:
