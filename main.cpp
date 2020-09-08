@@ -1,56 +1,60 @@
-//#include <python3.8/Python.h>   
-//#include <QtWidgets>            
-// Code will not compile if include Python.h is after QtCore  -- Order should not matter.
-// In my Build this includes all submodules with older version of Qt this may not. 
-// Difference between QtWidgets adn QWidget Classes
-
+#include <Python.h>
+#include <QWidget>  //For this version of  QT need to explicitly import everything you use.
 #include <QApplication>
-//#include "pyConsole.h"
-#include"mainwindow.h"
-
-
-void MainWindowtest(QApplication *a){
-
-
-    //Basic Example
-    qInfo() << "Hello World !!";
-
-    //qInfo() << argv[0]; // ./embeddingPythonCmake
-    qInfo() << a->allWidgets();
-    qInfo() << a->allWindows();
-
-}
+#include <QPushButton>
+#include <QLabel>
+#include <QLineEdit>
+#include <QHBoxLayout>
+// #include <QVBoxLayout>
+#include <pyConsole.h>
+// #include <QSerialPort>
+#include <QProcess>
 
 
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc,argv);
+    QApplication app(argc, argv);
+    QWidget window;
 
-    //Python Console Code
-    //pyConsole date = pyConsole() ;  // Another method of calling test method. date.test(); 
+    QPushButton *button = new QPushButton(QApplication::translate("childwidget", "Run Command"), &window);
+    QLabel *label = new QLabel("Output", &window);
+    QLineEdit *lineEdit = new QLineEdit(&window);
 
 
-    MainWindow w;
-    w.show();
-
-    // Why does this command not work in Test function? 
-    //Answer : You are instanciating the window objects on the stack inside a a tight scope, and as you know those objects will be destructed as soon as they go out of that scope. What you are doing is letting them go out of scope before the application is ever started.
-    //QMainWindow window;
-    //QMainWindow window2;
-    //testWidget.setText("Blah Blah");
-    //window.show();
-    //window2.show();
-
-    //Method to test MainWindow Class functionality.
-    //MainWindowtest(&a); 
+    QHBoxLayout *layout = new QHBoxLayout(&window);
     
+    layout->addWidget(lineEdit);
+    layout->addWidget(button);
+    layout->addWidget(label);
+    window.setLayout(layout);
+    window.setWindowTitle(
+        QApplication::translate("windowlayout", "Basic Console App"));
+    
+    QString result = "Blah";
+    QObject::connect(button, SIGNAL(clicked()), label, SLOT(clear()));
+    
+    //Does not work and don't know why?
+    //QObject::connect(button, SIGNAL(clicked()), label, SLOT(setText(result)));
+    window.show();
 
-  
+    pyConsole py = pyConsole(argv);
+    char *command = (char *)"print('Test')"; 
+    py.runCommand(command); 
 
+    //How to convert chat * to wchar** -> If you know it is off the right format you can cast it directly. 
+    //Py_Main(argc,(wchar_t**)argv);
+    
+    //QSerialPort Testing
+    /* QSerialPort test;
+    test.setPortName("testport");
+    qDebug()<<"Hello Qt"; */
 
-    return a.exec(); 
+    //QProcess https://doc.qt.io/qt-5/qprocess.html#details
+
+    /* QProcess test = new QProcess();
+    start process to run program with parameter
+    wait till finished.. */
+    
+    return app.exec();
 }
-
-
-
