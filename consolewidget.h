@@ -9,7 +9,7 @@ class ConsoleWidget : public QWidget
 public:
     explicit ConsoleWidget(QWidget *parent = nullptr);
 
-signals:
+Q_SIGNALS:
 
 };
 

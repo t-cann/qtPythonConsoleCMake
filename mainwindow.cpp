@@ -1,4 +1,4 @@
-#include <python3.8/Python.h> 
+#include <Python.h> //#include <python3.8/Python.h> 
 
 #include <QtWidgets>
 #include <QDebug>
@@ -6,22 +6,22 @@
 #include "mainwindow.h"
 //#include "consolewidget.h"
 
-#include "pyConsole.h"
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    console = new pyConsole(); 
+    QTextEdit* textEdit = new QTextEdit(this);
+    this->setCentralWidget(textEdit);
+    this->createDockWindows();
+    this->setWindowTitle("Test");
+    this->resize(500,600);
+
     
-    //QTextEdit* textEdit = new QTextEdit(this);
-    //setCentralWidget(textEdit);
-    createDockWindows();
-    setWindowTitle("Test");
-    resize(300,200);
 }
 
 MainWindow::~MainWindow()
 {
-
+    console->~pyConsole();
 }
 
 void MainWindow::createDockWindows(){
@@ -41,11 +41,16 @@ void MainWindow::createDockWindows(){
     // //viewMenu->addAction(dock->toggleViewAction());
 
     dock= new QDockWidget(tr("Python Console Test"), this);
-    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
     box = new QGroupBox(dock);
     button = new QPushButton(tr("Run"));
     lineEdit = new QLineEdit();
-    textEdit = new QTextEdit();
+    lineEdit->setAcceptDrops(true);
+    lineEdit->setPlaceholderText("Enter Python Commands in here.");
+    textEdit = new QPlainTextEdit();
+    textEdit->setPlaceholderText("Outputs Display Here.");
+    textEdit->setReadOnly(true);
+    textEdit->setMaximumBlockCount(100);
 
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(lineEdit);
@@ -56,7 +61,7 @@ void MainWindow::createDockWindows(){
     box->setLayout(vbox);
 
     dock->setWidget(box);
-    addDockWidget(Qt::RightDockWidgetArea, dock);
+    addDockWidget(Qt::BottomDockWidgetArea, dock);
 
     QObject::connect(button, &QPushButton::clicked, this, &MainWindow::updateConsole , Qt::QueuedConnection);
 
@@ -64,7 +69,7 @@ void MainWindow::createDockWindows(){
 
 void MainWindow::updateConsole(){
     //Debug1
-    //qInfo() << "Test";
+    //qInfo() << "Start of Update Console";
     //Debug2
     //lineEdit->setText("Test");
     //Debug3
@@ -72,14 +77,22 @@ void MainWindow::updateConsole(){
     QString linetext = lineEdit->text();
     QString text = textEdit->toPlainText();
     textEdit->setText(text +linetext); 
-    */
-    pyConsole console = pyConsole(); 
-    //QString linetext = lineEdit->text();
-    //textEdit->setText(console.runString(linetext));
-    //console->~pyConsole();
-
+     */
+    //QString* linetext = lineEdit->text();
+    textEdit->appendPlainText(">>>" + lineEdit->text());
+    QString output = console->pyRun(lineEdit->text());
+    if (output!="")
+    {
+        textEdit->appendPlainText(output);
+    }
+    
+    
+    lineEdit->setText("");
+    //qInfo() << "End of Update Console";
 
 }
+
+
 
 //void someFunction();
 //QObject::connect(button, &QPushButton::clicked, this, someFunction, Qt::QueuedConnection);

@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QtWidgets>
+#include "pyConsole.h" 
+
 
 
 class mainwindow
@@ -39,8 +41,20 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-signals:
-    void proccessFinished(int exitCode, QProcess::ExitStatus status);
+
+private Q_SLOTS:
+    void updateConsole();
+
+private:
+    void createDockWindows();
+    QDockWidget* dock;
+    //QListWidget* console;
+    QGroupBox* box;
+    QPushButton* button;
+    QLineEdit* lineEdit;
+    QPlainTextEdit* textEdit;
+    pyConsole* console;
+};
 
 public slots:
     void runCommand();
