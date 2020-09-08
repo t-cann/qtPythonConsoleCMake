@@ -7,11 +7,21 @@
 //https://codereview.stackexchange.com/questions/92266/sending-a-c-array-to-python-numpy-and-back/92353#92353
 //https://ubuverse.com/embedding-the-python-interpreter-in-a-qt-application/
 
+//Notes:
+//Sending data from C++ to Python
+//Copy vs Move
+//Deep vs Shallow Copy
+//Type of C Array vs Python Variable 
+//As numpy is C Accelerated  might help
+//Tiobrowse data
+//Simple types of data - Strings , Ints and Doubles
+
+/**
+ * @brief Construct a new py Console::py Console object
+ * 
+ */
 pyConsole::pyConsole()
 {
-    
-    
-
     //program = Py_DecodeLocale((char*)argv[0], NULL); //
     program = Py_DecodeLocale("embeddingPythonConsole", NULL);
     if (program == NULL) {
@@ -59,7 +69,10 @@ sys.stderr = catchOutErr\n\
 
 }
 
-//Deconstructor
+/**
+ * @brief Destroy the py Console::py Console object
+ * 
+ */
 pyConsole::~pyConsole()
 {
     PyRun_SimpleString("sys.stdout = oldstdout");
@@ -74,7 +87,10 @@ pyConsole::~pyConsole()
     PyMem_RawFree(program);
 }
 
-//Function to Test Functionality and run Debug
+/**
+ * @brief Function to Test Functionality and run Debug
+ * 
+ */
 void pyConsole::test(){
     
     PyRun_SimpleString(
@@ -86,18 +102,21 @@ void pyConsole::test(){
 
 }
 
-//Sending data from C++ to Python
-//Copy vs Move
-//Deep vs Shallow Copy
-//Type of C Array vs Python Variable 
-//As numpy is C Accelerated  might help
-// Tiobrowse data
-//Simple types of data - Strings , Ints and Doubles
-
+/**
+ * @brief Run a C++ String (const char *) in Python e.g. if command = "print('hello')" -> hello gets sent to stdout. 
+ * 
+ * @param command 
+ */
 void pyConsole::runString(const char *command){
     PyRun_SimpleString(command);
 }
 
+/**
+ * @brief Takes in a QString which is run in python and the output is captured and returned.
+ * 
+ * @param command 
+ * @return QString 
+ */
 QString pyConsole::pyRun(QString command){
     QString input =  command; //"\"" + command + "\"";
     PyRun_SimpleString("catchOutErr.value = ''");
@@ -113,7 +132,12 @@ QString pyConsole::pyRun(QString command){
     return outstring;
 }
 
-
+/**
+ * @brief Returns a QString if a PyObject is a Unicode String.
+ * 
+ * @param poVal 
+ * @return QString 
+ */
 QString pyConsole::ObjectToString(PyObject *poVal)
 {
     QString val;
@@ -138,6 +162,12 @@ QString pyConsole::ObjectToString(PyObject *poVal)
     return val;
 }
 
+/**
+ * @brief Check is Python has error if so outputs the error to stderr and clear error indicator.
+ * 
+ * @return true 
+ * @return false 
+ */
 bool pyConsole::hasError()
 {
     bool error = false;

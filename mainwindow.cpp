@@ -1,11 +1,15 @@
-#include <Python.h> //#include <python3.8/Python.h> 
-
+#include <Python.h> 
 #include <QtWidgets>
 #include <QDebug>
-
 #include "mainwindow.h"
+//#include <python3.8/Python.h> can use this notation to chose specific versions of python if got wide imports.
 //#include "consolewidget.h"
 
+/**
+ * @brief Construct a new Main Window:: Main Window object
+ * 
+ * @param parent 
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -14,39 +18,35 @@ MainWindow::MainWindow(QWidget *parent)
     this->setCentralWidget(textEdit);
     this->createDockWindows();
     this->setWindowTitle("Test");
-    this->resize(500,600);
-
-    
+    this->resize(500,600);    
 }
 
+/**
+ * @brief Destroy the Main Window:: Main Window object
+ * 
+ */
 MainWindow::~MainWindow()
 {
     console->~pyConsole();
 }
 
+/**
+ * @brief Create all the Dock Windows
+ * 
+ */
 void MainWindow::createDockWindows(){
-
-    // QDockWidget *dock = new QDockWidget(tr("Customers"), this);
-    // dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    // console = new QListWidget(dock);
-    // console->addItems(QStringList()
-    //         << "John Doe, Harmony Enterprises, 12 Lakeside, Ambleton"
-    //         << "Jane Doe, Memorabilia, 23 Watersedge, Beaton"
-    //         << "Tammy Shea, Tiblanka, 38 Sea Views, Carlton"
-    //         << "Tim Sheen, Caraba Gifts, 48 Ocean Way, Deal"
-    //         << "Sol Harvey, Chicos Coffee, 53 New Springs, Eccleston"
-    //         << "Sally Hobart, Tiroli Tea, 67 Long River, Fedula");
-    // dock->setWidget(console);
-    // addDockWidget(Qt::RightDockWidgetArea, dock);
-    // //viewMenu->addAction(dock->toggleViewAction());
 
     dock= new QDockWidget(tr("Python Console Test"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+    
     box = new QGroupBox(dock);
+    
     button = new QPushButton(tr("Run"));
+    
     lineEdit = new QLineEdit();
     lineEdit->setAcceptDrops(true);
     lineEdit->setPlaceholderText("Enter Python Commands in here.");
+    
     textEdit = new QPlainTextEdit();
     textEdit->setPlaceholderText("Outputs Display Here.");
     textEdit->setReadOnly(true);
@@ -57,37 +57,48 @@ void MainWindow::createDockWindows(){
     vbox->addWidget(button);
     vbox->addWidget(textEdit);
     //vbox->addStretch(1);
+    
     box->setContentsMargins(0,0,0,0);
     box->setLayout(vbox);
 
     dock->setWidget(box);
     addDockWidget(Qt::BottomDockWidgetArea, dock);
 
+    //Connect Button Push to the Update Console function. 
     QObject::connect(button, &QPushButton::clicked, this, &MainWindow::updateConsole , Qt::QueuedConnection);
-
 }
 
+/**
+ * @brief Called when Button Pressed contains logic that takes text passes to Python and displays output. 
+ * 
+ */
 void MainWindow::updateConsole(){
-    //Debug1
-    //qInfo() << "Start of Update Console";
-    //Debug2
+    bool debug = false;
+    
+    if (debug)
+    {
+        qInfo() << "Start of Update Console";    
+    }
+
+    //Test1
     //lineEdit->setText("Test");
-    //Debug3
+    //Test2
     /* 
     QString linetext = lineEdit->text();
     QString text = textEdit->toPlainText();
     textEdit->setText(text +linetext); 
-     */
-    //QString* linetext = lineEdit->text();
+    */
+        
     textEdit->appendPlainText(">>>" + lineEdit->text());
     QString output = console->pyRun(lineEdit->text());
     if (output!="")
     {
         textEdit->appendPlainText(output);
     }
-    
     lineEdit->setText("");
-    //qInfo() << "End of Update Console";
-
+    
+    if (debug)
+    {
+        qInfo() << "End of Update Console";
+    }
 }
-
