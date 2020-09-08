@@ -17,4 +17,11 @@ Project to demostate and embedding at python console into C++ QT GUI/Widget appl
 3) Python 3.8 + Dev and Libs  ( need headers (.h) and libraries (.so/.a) )
 
 
+# Example Include Paths for IDE's
 
+'''
+"/usr/include/x86_64-linux-gnu/qt5/QtCore",
+"/usr/include/x86_64-linux-gnu/qt5",
+"/usr/include/x86_64-linux-gnu/qt5/QtWidgets",
+"/usr/include/python3.8"
+'''
