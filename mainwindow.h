@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QtWidgets>
-#include "pyConsole.h" 
 #include "consolewidget.h"
 
 //References:
@@ -21,16 +20,12 @@ public:
 
 
 private Q_SLOTS:
-    void updateConsole();
 
 private:
     void createDockWindows();
-    QDockWidget* dock;
+
     QGroupBox* box;
-    QPushButton* button;
-    QLineEdit* lineEdit;
-    QPlainTextEdit* textEdit;
-    pyConsole* console;
+    QDockWidget* dock;
     ConsoleWidget* consoleWidget;
 };
 

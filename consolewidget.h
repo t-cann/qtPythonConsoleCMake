@@ -2,7 +2,8 @@
 #define CONSOLEWIDGET_H
 
 #include <QWidget>
-
+#include <QtWidgets>
+#include "pyConsole.h" 
 
 class ConsoleWidget : public QWidget
 {
@@ -12,6 +13,13 @@ public:
     ~ConsoleWidget();
 Q_SIGNALS:
 
+private Q_SLOTS:
+    void updateConsole();
+
+private:
+    pyConsole* console;
+    QLineEdit* lineEdit;
+    QPlainTextEdit* textEdit;
 };
 
 #endif // CONSOLEWIDGET_H
