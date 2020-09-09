@@ -21,6 +21,7 @@ private:
     pyConsole* console;
     QLineEdit* lineEdit;
     QPlainTextEdit* textEdit;
+    int arraytoPython();
 };
 
 #endif // CONSOLEWIDGET_H

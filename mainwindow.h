@@ -23,9 +23,7 @@ private Q_SLOTS:
 
 private:
     void createDockWindows();
-
-    QGroupBox* box;
-    QDockWidget* dock;
+    void createCentralWidget();
     ConsoleWidget* consoleWidget;
 };
 
