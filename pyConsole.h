@@ -26,7 +26,7 @@ public:
     ~pyConsole();
     void test();
     void runString(const char *);
-    QString pyRun(QString );
+    QString pyRun(QString);
     QString ObjectToString(PyObject*);
 };
 

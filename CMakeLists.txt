@@ -12,8 +12,9 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #Multiplatform Compatability issue (I have changed enviroment varible temperarly but could integrate into Python.) #list(APPEND ${PYTHONPATH} ${CMAKE_CURRENT_DIR}) #${CMAKE_CURRENT_DIR}/module/python_files SOURCE #message($ENV{PYTHONPATH})#set{ENV{PYTHONPATH} "$ENV{PYTHONPATH}:${CMAKE_CURRENT_DIR}")
-# https://cmake.org/cmake/help/latest/module/FindPython.html  //Python3
-find_package (Python3 COMPONENTS Interpreter Development NumPy)
+#https://numpy.org/doc/stable/reference/c-api/index.html
+#https://cmake.org/cmake/help/latest/module/FindPython.html  //Python3
+find_package(Python3 COMPONENTS Interpreter Development NumPy)
 
 # https://cmake.org/cmake/help/latest/manual/cmake-qt.7.html
 find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
