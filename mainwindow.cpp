@@ -47,10 +47,18 @@ void MainWindow::createCentralWidget()
     double balance[5] = {1000.0, 2.0, 3.4, 17.0, 50.0};
     const char* cars[4] = {"Volvo", "BMW", "Ford", "Mazda"};
 
-    // QObject::connect(button1, &QPushButton::clicked, this, &ConsoleWidget::updateConsole , Qt::QueuedConnection);
-    // QObject::connect(button2, &QPushButton::clicked, this, &ConsoleWidget::updateConsole , Qt::QueuedConnection);
-    // QObject::connect(button3, &QPushButton::clicked, this, &ConsoleWidget::updateConsole , Qt::QueuedConnection);
+    // QObject::connect(button1, &QPushButton::clicked, this, &MainWindow::button1 , Qt::QueuedConnection);
+    // QObject::connect(button2, &QPushButton::clicked, this, &MainWindow::updateConsole , Qt::QueuedConnection);
+    // QObject::connect(button3, &QPushButton::clicked, this, &MainWindow::updateConsole , Qt::QueuedConnection);
 }
+
+// /**
+//  * @brief 
+//  * 
+//  */
+// void MainWindow::button1(){
+
+// }
 
 /**
  * @brief Create all the Dock Windows
