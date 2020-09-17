@@ -35,7 +35,8 @@ pyConsole::pyConsole()
     Py_SetProgramName(program);  // optional but recommended 
 
     std::string stdOutErr =
-            "import sys\n"
+            "import sys, os\n"
+            "sys.path.append(os.getcwd())\n"
             "\n"
             "class CatchOutErr:\n"
             "    def __init__(self):\n"
@@ -47,7 +48,8 @@ pyConsole::pyConsole()
             "oldstdout = sys.stdout\n"
             "sys.stdout = catchOutErr\n"
             "oldstderr = sys.stderr\n"
-            "sys.stderr = catchOutErr\n"; //this is python code to redirect stdouts/stderr
+            "sys.stderr = catchOutErr\n"
+            ; //this is python code to redirect stdouts/stderr
 
     Py_Initialize();
 
