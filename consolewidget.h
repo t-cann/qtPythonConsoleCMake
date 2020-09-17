@@ -14,11 +14,17 @@ public:
 
 Q_SIGNALS:
 
-private Q_SLOTS:
+
+public Q_SLOTS:
     void updateConsole();
+//  void clearConsole();
+//  void toConsole(int *x);
+//  void toConsole(QString *x);
+//  void toConsole(int[3] *x);
+//  void toConsole(DataArray *x);
 
 private:
-    pyConsole* console;
+    pyConsole* console;     //Need Better Name - can't have multiple Consoles does not make sense. Interpreter/Run
     QLineEdit* lineEdit;
     QPlainTextEdit* textEdit;
     int arraytoPython();
