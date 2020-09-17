@@ -19,11 +19,11 @@ public:
     ~MainWindow();
 
 
-public Q_SLOTS:
-    void setValue(int value);
+// public Q_SLOTS:
+//     void setValue(int value);
 
-Q_SIGNALS:
-    void valueChanged(int newValue);
+// Q_SIGNALS:
+//     void sendInt(int newValue);
 
 private:
     void createDockWindows();
