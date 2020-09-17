@@ -1,5 +1,7 @@
 #include "pyConsole.h"
 
+
+
 // References:
 //https://ubuverse.com/embedding-the-python-interpreter-in-a-qt-application/
 //http://mateusz.loskot.net/post/2011/12/01/python-sys-stdout-redirection-in-cpp/
@@ -57,11 +59,11 @@ pyConsole::pyConsole()
     PyErr_Print(); //make python print any errors
     output = PyObject_GetAttrString(catcher,"value"); //get the stdout and stderr from our catchOutErr object
 
-    //test();
-    //PyRun_SimpleString("print(1+1)"); //this is ok stdout
-    //PyRun_SimpleString("1+a"); //this creates an error
-    //qDebug().noquote() <<"Catcher Output:\n\n" + pyConsole::ObjectToString(output).toUtf8(); // In Unicode format \n new line charaters how to remove?
-    //qDebug().noquote() <<  pyConsole::pyRun("print('hello')");
+    //Uncomment to Test Functionality (TODO Make Unit Test)
+    //displayDateandTime();
+
+    stringtoConsole("name", "Thomas");
+    inttoConsole();
 }
 
 /**
@@ -80,21 +82,6 @@ pyConsole::~pyConsole()
     }
     Py_Finalize();
     PyMem_RawFree(program);
-}
-
-/**
- * @brief Function to Test Functionality and run Debug
- * 
- */
-void pyConsole::test(){
-    
-    PyRun_SimpleString(
-        "from time import time,ctime\n"
-        "print('Today is', ctime(time()))\n"
-    );
-
-    PyRun_SimpleString("1+3"); //no output 
-
 }
 
 /**
@@ -177,9 +164,45 @@ bool pyConsole::hasError()
     return error;
 }
 
-void pyConsole::button1(){
+
+/**
+ * @brief Function to Test Functionality of Python Interpreter by Outputing Todays Date and Time.
+ * 
+ */
+void pyConsole::displayDateandTime(){
+    
+    PyRun_SimpleString(
+        "from time import time,ctime\n"
+        "print('Today is', ctime(time()))\n"
+    );
+
+    // PyRun_SimpleString("1+3"); //no output 
+
+    // //PyRun_SimpleString("print(1+1)"); //this is ok stdout
+    // //PyRun_SimpleString("1+a"); //this creates an error
+    // //qDebug().noquote() <<"Catcher Output:\n\n" + pyConsole::ObjectToString(output).toUtf8(); // In Unicode format \n new line charaters how to remove?
+    // //qDebug().noquote() <<  pyConsole::pyRun("print('hello')");
+
+}
+
+/**
+ * @brief 
+ * 
+ */
+void pyConsole::stringtoConsole(QString valName ,QString value){
     PyObject *m, *v;
     m= pModule;
-    v = Py_BuildValue("s","Thomas");
-    PyObject_SetAttrString(m, "name", v);
+    v = Py_BuildValue("s",value.toStdString().c_str());
+    PyObject_SetAttrString(m, valName.toStdString().c_str(), v);
+}
+
+/**
+ * @brief 
+ * 
+ */
+void pyConsole::inttoConsole(QString valName,int  value){
+    PyObject *m, *v;
+    m= pModule;
+    v = Py_BuildValue("i",value);
+    PyObject_SetAttrString(m, valName.toStdString().c_str(), v);
 }
