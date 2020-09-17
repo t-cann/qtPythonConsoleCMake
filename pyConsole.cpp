@@ -1,4 +1,6 @@
+//#define NPY_NO_DEPRECATED_API  NPY_1_9_API_VERSION //TODO Resolve issue with old api files but frames python os ??? https://numpy.org/devdocs/reference/c-api/deprecations.html
 #include "pyConsole.h"
+#include <numpy/arrayobject.h>
 
 
 
@@ -52,7 +54,9 @@ pyConsole::pyConsole()
             ; //this is python code to redirect stdouts/stderr
 
     Py_Initialize();
-
+    
+    if(_import_array()<0){
+    }
     //PyRun_SimpleString("print('>>> Start of Python Output / Constructor PyConsole')");
 
     pModule = PyImport_AddModule("__main__"); //create main module
@@ -66,6 +70,8 @@ pyConsole::pyConsole()
 
     stringtoConsole("name", "Thomas");
     inttoConsole();
+    doubletoConsole();
+    arraytoConsole();
 }
 
 /**
@@ -207,4 +213,45 @@ void pyConsole::inttoConsole(QString valName,int  value){
     m= pModule;
     v = Py_BuildValue("i",value);
     PyObject_SetAttrString(m, valName.toStdString().c_str(), v);
+}
+
+/**
+ * @brief 
+ * 
+ */
+void pyConsole::doubletoConsole(QString valName, double  value){
+    PyObject *m, *v;
+    m= pModule;
+    v = Py_BuildValue("d",value);
+    PyObject_SetAttrString(m, valName.toStdString().c_str(), v);
+}
+
+/**
+ * @brief 
+ * 
+ */
+void pyConsole::arraytoConsole(QString valName){
+    bool debug = true;
+    PyObject *m, *v;
+    m= pModule;
+
+    if(debug){
+    
+
+    
+    // Build the 2D array in C++
+    const int SIZE = 10;
+    npy_intp dims[2]{SIZE, SIZE};
+    const int ND = 2;
+    long double(*c_arr)[SIZE]{ new long double[SIZE][SIZE] };
+    for (int i = 0; i < SIZE; i++)
+        for (int j = 0; j < SIZE; j++)
+            c_arr[i][j] = i * SIZE + j;
+    
+    PyObject *pArray = PyArray_SimpleNewFromData(ND, dims, NPY_LONGDOUBLE, reinterpret_cast<void*>(c_arr));
+    PyArrayObject *np_arr = reinterpret_cast<PyArrayObject*>(pArray);
+    v = Py_BuildValue("O", np_arr);
+    PyObject_SetAttrString(m, valName.toStdString().c_str(), v);
+    
+    }
 }

@@ -27,7 +27,8 @@ private:
     void displayDateandTime();
     void stringtoConsole(QString valName = "name", QString value = "Thomas");
     void inttoConsole(QString valName = "age", int value = 6);
-    //void doubletoConsole(QString valName, double value);
+    void doubletoConsole(QString valName = "pi", double value = 3.14159 );
+    void arraytoConsole(QString valName = "array");
 
 public:
     pyConsole();
