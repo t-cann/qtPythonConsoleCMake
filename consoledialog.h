@@ -3,12 +3,13 @@
 
 #include <QDialog>
 
-QT_BEGIN_NAMESPACE
+// QT_BEGIN_NAMESPACE
 class QGroupBox;
 class QLabel;
 class QLineEdit;
 class QPushButton;
-QT_END_NAMESPACE
+class QDialogButtonBox;
+// QT_END_NAMESPACE
 
 class ConsoleDialog : public QDialog
 {
@@ -18,6 +19,11 @@ public:
     ConsoleDialog(QWidget *parent = nullptr);
 
 private:
+    QLabel *label; 
+    QLineEdit *lineEdit;
+    QPushButton *copyButton;
+    QPushButton *moveButton;
+    QDialogButtonBox *buttonBox;
 
 };
 
