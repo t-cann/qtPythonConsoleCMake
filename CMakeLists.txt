@@ -23,3 +23,7 @@ find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
 ADD_DEFINITIONS(-DQT_NO_KEYWORDS)
 
 add_subdirectory(src)
+
+add_subdirectory(test)
+
+add_subdirectory(docs)
